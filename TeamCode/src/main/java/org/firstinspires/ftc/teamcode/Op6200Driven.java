@@ -31,36 +31,41 @@ public class Op6200Driven extends OpMode {
     @Override
     public void loop() {
 
-        double drive = -gamepad1.left_stick_y/3.5;
-        double strafe = -gamepad1.left_stick_x/3.5;
-        double turn = gamepad1.right_stick_x / 1.75;
+        double drive = -gamepad1.left_stick_y;
+        double strafe = -gamepad1.left_stick_x * 1.1;
+        double turn = gamepad1.right_stick_x;
 
-        double frontLeftPower = Range.clip(drive + strafe + turn, -0.4, 0.4);
-        double frontRightPower = Range.clip(drive - strafe - turn, -0.4, 0.4);
-        double backLeftPower = Range.clip(drive - strafe + turn, -0.4, 0.4);
-        double backRightPower = Range.clip(drive + strafe - turn, -0.4, 0.4);
+
+        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 0.65);
+        double frontLeftPower = (drive + strafe + turn) / denominator;
+        double backLeftPower = (drive - strafe + turn) / denominator;
+        double frontRightPower = (drive - strafe - turn) / denominator;
+        double backRightPower = (drive + strafe - turn) / denominator;
 
         robot.leftFront.setPower(frontLeftPower);
         robot.rightFront.setPower(frontRightPower);
         robot.leftRear.setPower(backLeftPower);
         robot.rightRear.setPower(backRightPower);
-        /*if(gamepad1.right_trigger > gamepad1.left_trigger){
-            robot.servo.setDirection(Servo.Direction.FORWARD);
-            robot.servo.setPosition(gamepad1.right_trigger);
-        }else if(gamepad1.left_trigger > gamepad1.right_trigger){
-            robot.servo.setDirection(Servo.Direction.REVERSE);
-            robot.servo.setPosition(gamepad1.left_trigger);
-        }*/
+
+//        //if(gamepad1.right_trigger > gamepad1.left_trigger){
+//            robot.servo.setDirection(Servo.Direction.FORWARD);
+//            robot.servo.setPosition(gamepad1.right_trigger);
+//        }else if(gamepad1.left_trigger > gamepad1.right_trigger){
+//            robot.servo.setDirection(Servo.Direction.REVERSE);
+//            robot.servo.setPosition(gamepad1.left_trigger);
+//        }
+
+        //set servo position
         double gripPos = robot.servo.getPosition();
-        if(gamepad2.left_trigger > 0 && gripPos > minPosition){
-            gripPos = gripPos - 0.01;
-        }else if(gamepad2.right_trigger > 0 && gripPos < maxPosition){
-            gripPos = gripPos + 0.01;
+        if(gamepad1.left_trigger > 0 && gripPos > minPosition){
+            gripPos = minPosition;
+        }else if(gamepad1.right_trigger > 0 && gripPos < maxPosition){
+            gripPos = maxPosition;
         }else{
             gripPos = gripPos;
         }
 
-
+        //based on grip position, set position of servo
         robot.servo.setPosition(Range.clip(gripPos, minPosition, maxPosition));
 
         /*float lt = gamepad1.left_trigger / 2;
