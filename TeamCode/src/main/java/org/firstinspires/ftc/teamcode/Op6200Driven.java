@@ -47,13 +47,6 @@ public class Op6200Driven extends OpMode {
         robot.leftRear.setPower(backLeftPower);
         robot.rightRear.setPower(backRightPower);
 
-//        //if(gamepad1.right_trigger > gamepad1.left_trigger){
-//            robot.servo.setDirection(Servo.Direction.FORWARD);
-//            robot.servo.setPosition(gamepad1.right_trigger);
-//        }else if(gamepad1.left_trigger > gamepad1.right_trigger){
-//            robot.servo.setDirection(Servo.Direction.REVERSE);
-//            robot.servo.setPosition(gamepad1.left_trigger);
-//        }
 
         //set servo position
         double gripPos = robot.servo.getPosition();
@@ -67,41 +60,7 @@ public class Op6200Driven extends OpMode {
 
         //based on grip position, set position of servo
         robot.servo.setPosition(Range.clip(gripPos, minPosition, maxPosition));
-
-        /*float lt = gamepad1.left_trigger / 2;
-        float rt = gamepad1.right_trigger / 2;
-        if(gamepad1.left_trigger != 0){
-            robot.servo.setDirection(Servo.Direction.REVERSE);
-            robot.servo.setPosition(lt);
-        }else if(gamepad1.right_trigger != 0){
-            if(robot.servo.getPosition() < 0.5){
-                robot.servo.setDirection(Servo.Direction.FORWARD);
-                robot.servo.setPosition(rt);
-            }
-
-        }*/
-/*
-
-        if(gamepad1.right_trigger != 0)
-        {
-            robot.servo.setDirection(Servo.Direction.FORWARD);
-
-
-                robot.servo.setPosition(1);
-
-            }
-
-        if(gamepad1.left_trigger != 0)
-        {
-            //robot.servo.setDirection(Servo.Direction.REVERSE);
-            robot.servo.setPosition(0.0);
-            telemetry.addData("releasing cone servo position", robot.servo.getPosition());
-        }
-
-*/
-
-
-        telemetry.addData("general servo posi wtion", robot.servo.getPosition());
+        telemetry.addData("general servo position", robot.servo.getPosition());
 
 
 
