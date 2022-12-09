@@ -85,6 +85,7 @@ public class Op6200Driven extends OpMode {
             robot.lmotor.setPower(0.95);
             telemetry.addData("Current position", robot.lmotor.getCurrentPosition());
 
-        }}
+        }
+    }
 }
 
