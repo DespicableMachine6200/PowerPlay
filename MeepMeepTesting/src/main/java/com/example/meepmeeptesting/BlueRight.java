@@ -38,7 +38,8 @@ public class BlueRight {
                                         .back(39)
                                         .turn(Math.toRadians(-90))
                                         // drop cone
-                                        .strafeRight(17)
+                                        .strafeLeft(38)
+                                        .forward(46)
                                         // possibility for fourth cone idk
                                         .build()
                         );

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -104,95 +105,170 @@ public class AutoBlueRight extends LinearOpMode {
             telemetry.addLine("No tag snapshot available, never sighted(");
             telemetry.update();
         }
-        TrajectorySequence seq = null;
+        TrajectorySequence seq1 = null;
+        TrajectorySequence seq2 = null;
+        TrajectorySequence seq3 = null;
+        TrajectorySequence seq4 = null;
+        TrajectorySequence seq5 = null;
+        TrajectorySequence seq6 = null;
+
+
         robot.setPoseEstimate(new Pose2d(-37, 60, Math.toRadians(270)));
         if(tagOfInterest != null){
             if (tagOfInterest.id == LEFT) {
                 //insert trajectories for parking zone 1
-                seq = robot.trajectorySequenceBuilder(new Pose2d(-37, 60, Math.toRadians(270)))
+                seq1 = robot.trajectorySequenceBuilder(new Pose2d(-37, 60, Math.toRadians(270)))
                         .strafeLeft(25)
                         .forward(36)
                         .turn(Math.toRadians(-90))
+                        .build();
+                seq2 = robot.trajectorySequenceBuilder(seq1.end())
                         // drop cone
                         .strafeLeft(12)
                         .forward(50)
+                        .build();
+                seq3 = robot.trajectorySequenceBuilder(seq2.end())
                         // pick up cone
                         .back(39)
                         .turn(Math.toRadians(-90))
+                        .build();
+                seq4 = robot.trajectorySequenceBuilder(seq3.end())
                         // drop cone
                         .turn(Math.toRadians(90))
                         .forward(39)
+                        .build();
+                seq5 = robot.trajectorySequenceBuilder(seq4.end())
                         // pick up cone
                         .back(39)
                         .turn(Math.toRadians(-90))
+                        .build();
+                seq6 = robot.trajectorySequenceBuilder(seq5.end())
                         // drop cone
                         .strafeRight(17)
-                        // possibility for fourth cone idk
                         .build();
-
-
+                robot.followTrajectorySequence(seq1);
+                robot.followTrajectorySequence(seq2);
+                robot.followTrajectorySequence(seq3);
+                robot.followTrajectorySequence(seq4);
+                robot.followTrajectorySequence(seq5);
+                robot.followTrajectorySequence(seq6);
             }
 
             else if (tagOfInterest.id == MIDDLE) {
                 //insert trajectories for parking zone 2
-                seq = robot.trajectorySequenceBuilder(new Pose2d(-37, 60, Math.toRadians(270)))
+                seq1 = robot.trajectorySequenceBuilder(new Pose2d(-37, 60, Math.toRadians(270)))
                         .strafeLeft(25)
                         .forward(36)
                         .turn(Math.toRadians(-90))
+                        .build();
+                seq2 = robot.trajectorySequenceBuilder(seq1.end())
                         // drop cone
                         .strafeLeft(12)
                         .forward(50)
+                        .build();
+                seq3 = robot.trajectorySequenceBuilder(seq2.end())
                         // pick up cone
                         .back(39)
                         .turn(Math.toRadians(-90))
+                        .build();
+                seq4 = robot.trajectorySequenceBuilder(seq3.end())
                         // drop cone
                         .turn(Math.toRadians(90))
                         .forward(39)
+                        .build();
+                seq5 = robot.trajectorySequenceBuilder(seq4.end())
                         // pick up cone
                         .back(39)
                         .turn(Math.toRadians(-90))
+                        .build();
+                seq6 = robot.trajectorySequenceBuilder(seq5.end())
                         // drop cone
                         .strafeLeft(12)
-                        // possibility for fourth cone idk
                         .build();
+                robot.followTrajectorySequence(seq1);
+                robot.followTrajectorySequence(seq2);
+                robot.followTrajectorySequence(seq3);
+                robot.followTrajectorySequence(seq4);
+                robot.followTrajectorySequence(seq5);
+                robot.followTrajectorySequence(seq6);
             }
 
             else if (tagOfInterest.id == RIGHT) {
                 //insert trajectories for parking zone 3
-                seq = robot.trajectorySequenceBuilder(new Pose2d(-37, 60, Math.toRadians(270)))
+                seq1 = robot.trajectorySequenceBuilder(new Pose2d(-37, 60, Math.toRadians(270)))
                         .strafeLeft(25)
                         .forward(36)
                         .turn(Math.toRadians(-90))
+                        .build();
+                seq2 = robot.trajectorySequenceBuilder(seq1.end())
                         // drop cone
                         .strafeLeft(12)
                         .forward(50)
+                        .build();
+                seq3 = robot.trajectorySequenceBuilder(seq2.end())
                         // pick up cone
                         .back(39)
                         .turn(Math.toRadians(-90))
+                        .build();
+                seq4 = robot.trajectorySequenceBuilder(seq3.end())
                         // drop cone
                         .turn(Math.toRadians(90))
                         .forward(39)
+                        .build();
+                seq5 = robot.trajectorySequenceBuilder(seq4.end())
                         // pick up cone
                         .back(39)
                         .turn(Math.toRadians(-90))
+                        .build();
+                seq6 = robot.trajectorySequenceBuilder(seq5.end())
                         // drop cone
                         .strafeLeft(36)
                         .build();
+                robot.followTrajectorySequence(seq1);
+                robot.followTrajectorySequence(seq2);
+                robot.followTrajectorySequence(seq3);
+                robot.followTrajectorySequence(seq4);
+                robot.followTrajectorySequence(seq5);
+                robot.followTrajectorySequence(seq6);
 
             }
         }else{
-            seq = robot.trajectorySequenceBuilder(robot.getPoseEstimate())
-                    //failsafe trajectory
-                    .turn(Math.toRadians(90))
-                    .forward(12)
+            seq1 = robot.trajectorySequenceBuilder(new Pose2d(-37, 60, Math.toRadians(270)))
+                    .strafeLeft(25)
+                    .forward(36)
                     .turn(Math.toRadians(-90))
-                    .forward(3)
-                    .back(3)
-                    .turn(Math.toRadians(-90))
-                    .forward(35)
-                    .turn(Math.toRadians(90))
-                    .forward(26)
                     .build();
+            seq2 = robot.trajectorySequenceBuilder(seq1.end())
+                    // drop cone
+                    .strafeLeft(12)
+                    .forward(50)
+                    .build();
+            seq3 = robot.trajectorySequenceBuilder(seq2.end())
+                    // pick up cone
+                    .back(39)
+                    .turn(Math.toRadians(-90))
+                    .build();
+            seq4 = robot.trajectorySequenceBuilder(seq3.end())
+                    // drop cone
+                    .turn(Math.toRadians(90))
+                    .forward(39)
+                    .build();
+            seq5 = robot.trajectorySequenceBuilder(seq4.end())
+                    // pick up cone
+                    .back(39)
+                    .turn(Math.toRadians(-90))
+                    .build();
+            seq6 = robot.trajectorySequenceBuilder(seq5.end())
+                    // drop cone
+                    .strafeLeft(38)
+                    .forward(46)
+                    .build();
+            robot.followTrajectorySequence(seq1);
+            robot.followTrajectorySequence(seq2);
+            robot.followTrajectorySequence(seq3);
+            robot.followTrajectorySequence(seq4);
+            robot.followTrajectorySequence(seq5);
+            robot.followTrajectorySequence(seq6);
         }
 
         waitForStart();

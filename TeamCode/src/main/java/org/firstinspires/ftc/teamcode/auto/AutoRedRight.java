@@ -104,97 +104,166 @@ public class AutoRedRight extends LinearOpMode {
             telemetry.addLine("No tag snapshot available, never sighted(");
             telemetry.update();
         }
-        TrajectorySequence seq = null;
+        TrajectorySequence seq1 = null;
+        TrajectorySequence seq2 = null;
+        TrajectorySequence seq3 = null;
+        TrajectorySequence seq4 = null;
+        TrajectorySequence seq5 = null;
+        TrajectorySequence seq6 = null;
+
         Pose2d pos = new Pose2d(35.5, 64.75, Math.toRadians(270));
         robot.setPoseEstimate(pos);
         if(tagOfInterest != null){
             if (tagOfInterest.id == LEFT) {
                 //insert trajectories for parking zone 1
-                seq = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
+                seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
                         .turn(Math.toRadians(90))
                         .forward(24)
                         .strafeRight(40)
+                        .build();
+                seq2 = robot.trajectorySequenceBuilder(seq1.end())
                         // drop cone
                         .strafeRight(12)
                         .turn(Math.toRadians(180))
                         .forward(47)
+                        .build();
+                seq3 = robot.trajectorySequenceBuilder(seq2.end())
                         // pick up cone
                         .back(35)
                         .turn(Math.toRadians(90))
+                        .build();
+                seq4 = robot.trajectorySequenceBuilder(seq3.end())
                         // drop cone
                         .turn(Math.toRadians(-90))
                         .forward(35)
+                        .build();
+                seq5 = robot.trajectorySequenceBuilder(seq4.end())
                         // pick up cone
                         .back(35)
                         .turn(Math.toRadians(90))
+                        .build();
+                seq6 = robot.trajectorySequenceBuilder(seq5.end())
                         // drop cone
                         .strafeLeft(12)
                         .build();
+                robot.followTrajectorySequence(seq1);
+                robot.followTrajectorySequence(seq2);
+                robot.followTrajectorySequence(seq3);
+                robot.followTrajectorySequence(seq4);
+                robot.followTrajectorySequence(seq5);
+                robot.followTrajectorySequence(seq6);
             }
 
             else if (tagOfInterest.id == MIDDLE) {
                 //insert trajectories for parking zone 2
-                seq = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
+                seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
                         .turn(Math.toRadians(90))
                         .forward(24)
                         .strafeRight(40)
+                        .build();
+                seq2 = robot.trajectorySequenceBuilder(seq1.end())
                         // drop cone
                         .strafeRight(12)
                         .turn(Math.toRadians(180))
                         .forward(47)
+                        .build();
+                seq3 = robot.trajectorySequenceBuilder(seq2.end())
                         // pick up cone
                         .back(35)
                         .turn(Math.toRadians(90))
+                        .build();
+                seq4 = robot.trajectorySequenceBuilder(seq3.end())
                         // drop cone
                         .turn(Math.toRadians(-90))
                         .forward(35)
+                        .build();
+                seq5 = robot.trajectorySequenceBuilder(seq4.end())
                         // pick up cone
                         .back(35)
                         .turn(Math.toRadians(90))
+                        .build();
+                seq6 = robot.trajectorySequenceBuilder(seq5.end())
                         // drop cone
                         .strafeRight(12)
                         .build();
+                robot.followTrajectorySequence(seq1);
+                robot.followTrajectorySequence(seq2);
+                robot.followTrajectorySequence(seq3);
+                robot.followTrajectorySequence(seq4);
+                robot.followTrajectorySequence(seq5);
+                robot.followTrajectorySequence(seq6);
             }
 
             else if (tagOfInterest.id == RIGHT) {
                 //insert trajectories for parking zone 3
-                seq = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
+                seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
                         .turn(Math.toRadians(90))
                         .forward(24)
                         .strafeRight(40)
+                        .build();
+                seq2 = robot.trajectorySequenceBuilder(seq1.end())
                         // drop cone
                         .strafeRight(12)
                         .turn(Math.toRadians(180))
                         .forward(47)
+                        .build();
+                seq2 = robot.trajectorySequenceBuilder(seq1.end())
                         // pick up cone
                         .back(35)
                         .turn(Math.toRadians(90))
+                        .build();
+                seq2 = robot.trajectorySequenceBuilder(seq1.end())
                         // drop cone
                         .turn(Math.toRadians(-90))
                         .forward(35)
+                        .build();
+                seq2 = robot.trajectorySequenceBuilder(seq1.end())
                         // pick up cone
                         .back(35)
                         .turn(Math.toRadians(90))
+                        .build();
+                seq2 = robot.trajectorySequenceBuilder(seq1.end())
                         // drop cone
                         .strafeRight(35)
                         .build();
+                robot.followTrajectorySequence(seq1);
+                robot.followTrajectorySequence(seq2);
+                robot.followTrajectorySequence(seq3);
+                robot.followTrajectorySequence(seq4);
+                robot.followTrajectorySequence(seq5);
+                robot.followTrajectorySequence(seq6);
             }
         }else{
             //failsafe trajectories
-            seq = robot.trajectorySequenceBuilder(pos)
-                    .forward(17.5)
+            seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
+                    .turn(Math.toRadians(90))
+                    .forward(24)
+                    .strafeRight(40)
+            seq2 = robot.trajectorySequenceBuilder(seq1.end())
+                    // drop cone
+                    .strafeRight(12)
+                    .turn(Math.toRadians(180))
+                    .forward(47)
+                    
+                    // pick up cone
+                    .back(35)
+                    .turn(Math.toRadians(90))
+                    // drop cone
                     .turn(Math.toRadians(-90))
-                    .forward(4)
-                    //use claw
-                    .back(4)
-                    .turn(Math.toRadians(-90))
-                    .forward(17.5)
+                    .forward(35)
+                    // pick up cone
+                    .back(35)
                     .turn(Math.toRadians(90))
-                    .forward(25)
-                    .turn(Math.toRadians(90))
-                    .forward(50)
-                    .turn(Math.toRadians(90))
+                    // drop cone
+                    .strafeRight(35)
+                    .forward(62)
                     .build();
+            robot.followTrajectorySequence(seq1);
+            robot.followTrajectorySequence(seq2);
+            robot.followTrajectorySequence(seq3);
+            robot.followTrajectorySequence(seq4);
+            robot.followTrajectorySequence(seq5);
+            robot.followTrajectorySequence(seq6);
         }
 
         waitForStart();
