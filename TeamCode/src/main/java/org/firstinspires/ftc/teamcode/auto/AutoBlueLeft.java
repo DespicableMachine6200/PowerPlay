@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
@@ -59,8 +61,8 @@ public class AutoBlueLeft extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        double minPosition = 0.3f;
-        double maxPosition = 0.8f;
+        float minPosition = 0.3f;
+        float maxPosition = 0.8f;
         SampleMecanumDrive robot = new SampleMecanumDrive(hardwareMap);
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -126,35 +128,91 @@ public class AutoBlueLeft extends LinearOpMode {
             telemetry.addLine("No tag snapshot available, never sighted(");
             telemetry.update();
         }
-        TrajectorySequence seq = null;
-        TrajectorySequence seq_1 = null;
-        robot.setPoseEstimate(new Pose2d(37, 60, Math.toRadians(270)));
+
+        Pose2d startPose = new Pose2d(37, 60, Math.toRadians(270));
+        robot.setPoseEstimate(startPose);
+
+        TrajectorySequence one = null;
+        TrajectorySequence two = null;
+        TrajectorySequence three = null;
+        TrajectorySequence four = null;
+        TrajectorySequence five = null;
+        TrajectorySequence six = null;
+        TrajectorySequence seven = null;
+
+        //case1
+        one = robot.trajectorySequenceBuilder(new Pose2d(37, 60, Math.toRadians(270)))
+                .turn(Math.toRadians(-90))
+                .forward(22)
+                .strafeLeft(36)
+                .build();
+        two = robot.trajectorySequenceBuilder(one.end())
+                .strafeLeft(12)
+                .turn(Math.toRadians(180))
+                .forward(50)
+                .build();
+        three = robot.trajectorySequenceBuilder(two.end())
+                .back(42)
+                .turn(Math.toRadians(-90))
+                .build();
+        four = robot.trajectorySequenceBuilder(three.end())
+                .turn(Math.toRadians(90))
+                .forward(38)
+                .build();
+        five = robot.trajectorySequenceBuilder(four.end())
+                .back(38)
+                .turn(Math.toRadians(-90))
+                .build();
+        six = robot.trajectorySequenceBuilder(five.end())
+                .turn(Math.toRadians(90))
+                .forward(38)
+                .build();
+
+
+
+
         if(tagOfInterest != null){
             if (tagOfInterest.id == LEFT) {
                 //insert trajectories for parking zone 1
                 // drive.trajectorySequenceBuilder(new Pose2d(37, 60, Math.toRadians(270)))
-                seq = robot.trajectorySequenceBuilder(new Pose2d(37, 60, Math.toRadians(270)))
+                one = robot.trajectorySequenceBuilder(new Pose2d(37, 60, Math.toRadians(270)))
                         .turn(Math.toRadians(-90))
                         .forward(22)
                         .strafeLeft(36)
-                        // drop cone
+                        .build();
+
+                two = robot.trajectorySequenceBuilder(one.end())
                         .strafeLeft(12)
                         .turn(Math.toRadians(180))
                         .forward(50)
+                        .build();
                         // pick up cone
+                three = robot.trajectorySequenceBuilder(two.end())
                         .back(42)
                         .turn(Math.toRadians(-90))
+                        .build();
                         // drop cone
-                        .turn(Math.toRadians(90))
-                        .forward(38)
+                       four = robot.trajectorySequenceBuilder(three.end())
+                               .turn(Math.toRadians(90))
+                                .forward(38)
+                               .build();
                         // pick up cone
+
+                five = robot.trajectorySequenceBuilder(four.end())
                         .back(38)
                         .turn(Math.toRadians(-90))
+                        .build();
                         // drop cone
+                six = robot.trajectorySequenceBuilder(five.end())
                         .turn(Math.toRadians(90))
                         .forward(38)
                         .build();
             }
+
+            robot.followTrajectorySequence(one);
+            //drop cone
+            robot.servo.setPosition(minPosition);
+            robot.followTrajectorySequence(two);
 
             else if (tagOfInterest.id == MIDDLE) {
                 //insert trajectories for parking zone 2
