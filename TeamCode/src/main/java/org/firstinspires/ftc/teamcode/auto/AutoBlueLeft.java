@@ -171,12 +171,6 @@ public class AutoBlueLeft extends LinearOpMode {
                         // drop cone
                         .strafeLeft(38)
                         .build();
-                robot.followTrajectorySequence(seq1);
-                robot.followTrajectorySequence(seq2);
-                robot.followTrajectorySequence(seq3);
-                robot.followTrajectorySequence(seq4);
-                robot.followTrajectorySequence(seq5);
-                robot.followTrajectorySequence(seq6);
             }
             else if (tagOfInterest.id == MIDDLE) {
                 //insert trajectories for parking zone 2
@@ -211,12 +205,6 @@ public class AutoBlueLeft extends LinearOpMode {
                         .turn(Math.toRadians(90))
                         .forward(20)
                         .build();
-                robot.followTrajectorySequence(seq1);
-                robot.followTrajectorySequence(seq2);
-                robot.followTrajectorySequence(seq3);
-                robot.followTrajectorySequence(seq4);
-                robot.followTrajectorySequence(seq5);
-                robot.followTrajectorySequence(seq6);
             }
 
             else if (tagOfInterest.id == RIGHT) {
@@ -252,12 +240,7 @@ public class AutoBlueLeft extends LinearOpMode {
                         .turn(Math.toRadians(-90))
                         .forward(15)
                         .build();
-                robot.followTrajectorySequence(seq1);
-                robot.followTrajectorySequence(seq2);
-                robot.followTrajectorySequence(seq3);
-                robot.followTrajectorySequence(seq4);
-                robot.followTrajectorySequence(seq5);
-                robot.followTrajectorySequence(seq6);
+
             }
         }else{
             //failsafe trajectories
@@ -292,17 +275,24 @@ public class AutoBlueLeft extends LinearOpMode {
                     .turn(Math.toRadians(-90))
                     .forward(15)
                     .build();
-            robot.followTrajectorySequence(seq1);
-            robot.followTrajectorySequence(seq2);
-            robot.followTrajectorySequence(seq3);
-            robot.followTrajectorySequence(seq4);
-            robot.followTrajectorySequence(seq5);
-            robot.followTrajectorySequence(seq6);
         }
 
         waitForStart();
-        if(!isStopRequested() && seq != null){
-            robot.followTrajectorySequence(seq);
+        if(!isStopRequested() && seq1 != null){
+            robot.followTrajectorySequence(seq1);
+            robot.servo.setPosition(maxPosition);
+            robot.followTrajectorySequence(seq2);
+            robot.servo.setPosition(minPosition);
+            robot.followTrajectorySequence(seq3);
+            robot.servo.setPosition(maxPosition);
+            robot.followTrajectorySequence(seq4);
+            robot.servo.setPosition(minPosition);
+            robot.followTrajectorySequence(seq5);
+            if(seq6 != null){
+                robot.servo.setPosition(maxPosition);
+                robot.followTrajectorySequence(seq6);
+            }
+
         }
 
 
