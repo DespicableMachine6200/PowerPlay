@@ -272,8 +272,8 @@ public class AutoBlueRight extends LinearOpMode {
         }
 
         waitForStart();
-        if(!isStopRequested() && seq != null){
-            robot.followTrajectorySequence(seq);
+        if(!isStopRequested() && seq1 != null){
+            robot.followTrajectorySequence(seq1);
         }
 
     }
