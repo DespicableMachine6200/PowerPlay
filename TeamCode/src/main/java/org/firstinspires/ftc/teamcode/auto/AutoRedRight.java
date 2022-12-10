@@ -12,11 +12,14 @@ import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import java.util.ArrayList;
 
 @Autonomous
 public class AutoRedRight extends LinearOpMode {
+    private DcMotor lmotor;
 
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
     OpenCvCamera camera;
@@ -43,6 +46,8 @@ public class AutoRedRight extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        float minPosition = 0.3f;
+        float maxPosition = 0.8f;
         SampleMecanumDrive robot = new SampleMecanumDrive(hardwareMap);
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -146,12 +151,6 @@ public class AutoRedRight extends LinearOpMode {
                         // drop cone
                         .strafeLeft(12)
                         .build();
-                robot.followTrajectorySequence(seq1);
-                robot.followTrajectorySequence(seq2);
-                robot.followTrajectorySequence(seq3);
-                robot.followTrajectorySequence(seq4);
-                robot.followTrajectorySequence(seq5);
-                robot.followTrajectorySequence(seq6);
             }
 
             else if (tagOfInterest.id == MIDDLE) {
@@ -186,12 +185,6 @@ public class AutoRedRight extends LinearOpMode {
                         // drop cone
                         .strafeRight(12)
                         .build();
-                robot.followTrajectorySequence(seq1);
-                robot.followTrajectorySequence(seq2);
-                robot.followTrajectorySequence(seq3);
-                robot.followTrajectorySequence(seq4);
-                robot.followTrajectorySequence(seq5);
-                robot.followTrajectorySequence(seq6);
             }
 
             else if (tagOfInterest.id == RIGHT) {
@@ -226,12 +219,6 @@ public class AutoRedRight extends LinearOpMode {
                         // drop cone
                         .strafeRight(35)
                         .build();
-                robot.followTrajectorySequence(seq1);
-                robot.followTrajectorySequence(seq2);
-                robot.followTrajectorySequence(seq3);
-                robot.followTrajectorySequence(seq4);
-                robot.followTrajectorySequence(seq5);
-                robot.followTrajectorySequence(seq6);
             }
         }else{
             //failsafe trajectories
@@ -266,17 +253,29 @@ public class AutoRedRight extends LinearOpMode {
                     .strafeRight(35)
                     .forward(62)
                     .build();
-            robot.followTrajectorySequence(seq1);
-            robot.followTrajectorySequence(seq2);
-            robot.followTrajectorySequence(seq3);
-            robot.followTrajectorySequence(seq4);
-            robot.followTrajectorySequence(seq5);
-            robot.followTrajectorySequence(seq6);
         }
 
         waitForStart();
-        if(!isStopRequested() && seq != null){
-            robot.followTrajectorySequence(seq);
+        if(!isStopRequested() && seq1 != null){
+            robot.followTrajectorySequence(seq1);
+            robot.lmotor.setTargetPosition(-2882);
+            robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.lmotor.setPower(0.95);
+            robot.servo.setPosition(maxPosition);
+            robot.lmotor.setTargetPosition(15);
+            robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.lmotor.setPower(0.95);
+            robot.followTrajectorySequence(seq2);
+            robot.servo.setPosition(minPosition);
+            robot.followTrajectorySequence(seq3);
+            robot.servo.setPosition(maxPosition);
+            robot.followTrajectorySequence(seq4);
+            robot.servo.setPosition(minPosition);
+            robot.followTrajectorySequence(seq5);
+            if(seq6 != null){
+                robot.servo.setPosition(maxPosition);
+                robot.followTrajectorySequence(seq6);
+            }
         }
 
 
