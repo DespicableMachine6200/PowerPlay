@@ -31,14 +31,30 @@ public class Op6200Driven extends OpMode {
     @Override
     public void loop() {
 
-        double drive = -gamepad1.left_stick_y/3.5;
-        double strafe = -gamepad1.left_stick_x/3.5;
-        double turn = gamepad1.right_stick_x / 1.75;
+//        double drive = -gamepad1.left_stick_y/3.5;
+//        double strafe = -gamepad1.left_stick_x/3.5;
+//        double turn = gamepad1.right_stick_x / 1.75;
+//
+//        double frontLeftPower = Range.clip(drive + strafe + turn, -0.4, 0.4);
+//        double frontRightPower = Range.clip(drive - strafe - turn, -0.4, 0.4);
+//        double backLeftPower = Range.clip(drive - strafe + turn, -0.4, 0.4);
+//        double backRightPower = Range.clip(drive + strafe - turn, -0.4, 0.4);
+//
+//        robot.leftFront.setPower(frontLeftPower);
+//        robot.rightFront.setPower(frontRightPower);
+//        robot.leftRear.setPower(backLeftPower);
+//        robot.rightRear.setPower(backRightPower);
 
-        double frontLeftPower = Range.clip(drive + strafe + turn, -0.4, 0.4);
-        double frontRightPower = Range.clip(drive - strafe - turn, -0.4, 0.4);
-        double backLeftPower = Range.clip(drive - strafe + turn, -0.4, 0.4);
-        double backRightPower = Range.clip(drive + strafe - turn, -0.4, 0.4);
+        double drive = -gamepad1.left_stick_y;
+        double strafe = -gamepad1.left_stick_x * 1.1;
+        double turn = gamepad1.right_stick_x;
+
+
+        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 0.5);
+        double frontLeftPower = (drive + strafe + turn) / denominator;
+        double backLeftPower = (drive - strafe + turn) / denominator;
+        double frontRightPower = (drive - strafe - turn) / denominator;
+        double backRightPower = (drive + strafe - turn) / denominator;
 
         robot.leftFront.setPower(frontLeftPower);
         robot.rightFront.setPower(frontRightPower);
