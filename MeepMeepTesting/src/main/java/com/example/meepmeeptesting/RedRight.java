@@ -41,7 +41,7 @@ public class RedRight {
                                         // drop cone
                                         .strafeRight(35)
                                         .forward(62)
-                                        .build();
+                                        .build()
                         );
                 break;
             case 2:
