@@ -45,12 +45,12 @@ public class Op6200Driven extends OpMode {
 //        robot.leftRear.setPower(backLeftPower);
 //        robot.rightRear.setPower(backRightPower);
 
-        double drive = -gamepad1.left_stick_y;
-        double strafe = -gamepad1.left_stick_x * 1.1;
-        double turn = gamepad1.right_stick_x;
+        double drive = -gamepad1.left_stick_y/5;
+        double strafe = (-gamepad1.left_stick_x * 1.1)/5;
+        double turn = (gamepad1.right_stick_x)/5;
 
 
-        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 0.5);
+        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 0.45);
         double frontLeftPower = (drive + strafe + turn) / denominator;
         double backLeftPower = (drive - strafe + turn) / denominator;
         double frontRightPower = (drive - strafe - turn) / denominator;
