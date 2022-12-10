@@ -258,7 +258,7 @@ public class AutoRedRight extends LinearOpMode {
         waitForStart();
         if(!isStopRequested() && seq1 != null){
             robot.followTrajectorySequence(seq1);
-            robot.lmotor.setTargetPosition(-2882);
+            lmotor.setTargetPosition(-2882); //might work
             robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.lmotor.setPower(0.95);
             robot.servo.setPosition(maxPosition);
