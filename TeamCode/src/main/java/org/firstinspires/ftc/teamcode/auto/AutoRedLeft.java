@@ -143,6 +143,8 @@ public class AutoRedLeft extends LinearOpMode {
                         // pick up cone
                         .back(35)
                         .turn(Math.toRadians(-90))
+                        .build();
+                seq6 = robot.trajectorySequenceBuilder(seq5.end())
                         .strafeLeft(35)
                         .build();
             }
