@@ -207,22 +207,22 @@ public class AutoRedRight extends LinearOpMode {
                         .turn(Math.toRadians(180))
                         .forward(47)
                         .build();
-                seq2 = robot.trajectorySequenceBuilder(seq1.end())
+                seq3 = robot.trajectorySequenceBuilder(seq2.end())
                         // pick up cone
                         .back(35)
                         .turn(Math.toRadians(90))
                         .build();
-                seq2 = robot.trajectorySequenceBuilder(seq1.end())
+                seq4 = robot.trajectorySequenceBuilder(seq3.end())
                         // drop cone
                         .turn(Math.toRadians(-90))
                         .forward(35)
                         .build();
-                seq2 = robot.trajectorySequenceBuilder(seq1.end())
+                seq5 = robot.trajectorySequenceBuilder(seq4.end())
                         // pick up cone
                         .back(35)
                         .turn(Math.toRadians(90))
                         .build();
-                seq2 = robot.trajectorySequenceBuilder(seq1.end())
+                seq6 = robot.trajectorySequenceBuilder(seq5.end())
                         // drop cone
                         .strafeRight(35)
                         .build();
@@ -239,21 +239,29 @@ public class AutoRedRight extends LinearOpMode {
                     .turn(Math.toRadians(90))
                     .forward(24)
                     .strafeRight(40)
+                    .build();
             seq2 = robot.trajectorySequenceBuilder(seq1.end())
                     // drop cone
                     .strafeRight(12)
                     .turn(Math.toRadians(180))
                     .forward(47)
-                    
+                    .build();
+            seq3 = robot.trajectorySequenceBuilder(seq2.end())
                     // pick up cone
                     .back(35)
                     .turn(Math.toRadians(90))
+                    .build();
+            seq4 = robot.trajectorySequenceBuilder(seq3.end())
                     // drop cone
                     .turn(Math.toRadians(-90))
                     .forward(35)
+                    .build();
+            seq5 = robot.trajectorySequenceBuilder(seq4.end())
                     // pick up cone
                     .back(35)
                     .turn(Math.toRadians(90))
+                    .build();
+            seq6 = robot.trajectorySequenceBuilder(seq5.end())
                     // drop cone
                     .strafeRight(35)
                     .forward(62)
