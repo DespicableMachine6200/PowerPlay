@@ -50,7 +50,7 @@ public class Op6200Driven extends OpMode {
         double turn = gamepad1.right_stick_x;
 
 
-        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 0.65);
+        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 0.5);
         double frontLeftPower = (drive + strafe + turn) / denominator;
         double backLeftPower = (drive - strafe + turn) / denominator;
         double frontRightPower = (drive - strafe - turn) / denominator;
