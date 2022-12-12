@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.Team6200.Movement;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -24,7 +25,9 @@ public class Op6200Driven extends OpMode {
 
         //movement = new Movement(hardwareMap);
         robot = new SampleMecanumDrive(hardwareMap);
-
+        robot.lmotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.lmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lmotor.setTargetPosition(0);
 
     }
 
@@ -67,23 +70,24 @@ public class Op6200Driven extends OpMode {
 
         //manual movement for linear slide
         int lmotorpos = robot.lmotor.getCurrentPosition();
-        if(gamepad2.right_bumper)
+        if(gamepad1.right_bumper)
         {
             robot.lmotor.setTargetPosition(lmotorpos + 60);
             robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.lmotor.setPower(0.95);
-            telemetry.addData("Current position", robot.lmotor.getCurrentPosition());
 
         }
 
-        if(gamepad2.left_bumper)
+        if(gamepad1.left_bumper)
         {
             robot.lmotor.setTargetPosition(lmotorpos - 60);
             robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.lmotor.setPower(0.95);
-            telemetry.addData("Current position", robot.lmotor.getCurrentPosition());
 
-        }}
+
+        }
+            telemetry.addData("linear slide position", lmotorpos);
+    }
 }
 
 
