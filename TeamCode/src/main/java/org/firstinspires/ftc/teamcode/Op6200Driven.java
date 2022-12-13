@@ -87,6 +87,31 @@ public class Op6200Driven extends OpMode {
 
         }
             telemetry.addData("linear slide position", lmotorpos);
+
+        if(gamepad1.triangle) {
+            // high
+            robot.lmotor.setTargetPosition(2950);
+            robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.lmotor.setPower(0.95);
+        }
+        if(gamepad1.square) {
+            // medium
+            robot.lmotor.setTargetPosition(2060);
+            robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.lmotor.setPower(0.95);
+        }
+        if(gamepad1.circle) {
+            // low
+            robot.lmotor.setTargetPosition(1322);
+            robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.lmotor.setPower(0.95);
+        }
+        if(gamepad1.x) {
+            // ground
+            robot.lmotor.setTargetPosition(286);
+            robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.lmotor.setPower(0.95);
+        }
     }
 }
 
