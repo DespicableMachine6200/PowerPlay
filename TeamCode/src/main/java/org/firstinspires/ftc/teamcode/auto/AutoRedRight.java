@@ -138,7 +138,7 @@ public class AutoRedRight extends LinearOpMode {
                         .turn(Math.toRadians(90))
                         .build();
                 seq4 = robot.trajectorySequenceBuilder(seq3.end())
-                        // drop cone
+                     //rop cone
                         .turn(Math.toRadians(-90))
                         .forward(35)
                         .build();
