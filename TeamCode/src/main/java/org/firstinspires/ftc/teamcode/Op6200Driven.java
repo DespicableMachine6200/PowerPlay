@@ -36,8 +36,8 @@ public class Op6200Driven extends OpMode {
     public void loop() {
 
         double drive = -gamepad1.left_stick_y/5;
-        double strafe = -gamepad1.left_stick_x * 1.1/5;
-        double turn = gamepad1.right_stick_x/2;
+        double strafe = (-gamepad1.left_stick_x * 1.1)/5;
+        double turn = (gamepad1.right_stick_x)/5;
 
 
         double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 0.65);
