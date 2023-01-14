@@ -18,11 +18,31 @@ public class RedRight {
                 System.out.println("Going to 1");
                 myBot = new DefaultBotBuilder(meepMeep)
                         // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(0), 15)
+                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(90), 15.02)
                         .setDimensions(14, 10.5)
                         .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
-                                        .turn(Math.toRadians(90))
+                                        // three cone spline
+                                        .strafeLeft(32)
+                                        //.lineToLinearHeading(new Pose2d(10, -24, Math.toRadians(180)))
+                                        .lineToLinearHeading(new Pose2d(61, -24, Math.toRadians(180)))
+                                        //.lineToLinearHeading(new Pose2d(61, -24, Math.toRadians(180)))
+                                        // drop cone
+                                        /*.lineToLinearHeading(new Pose2d(24, -13, Math.toRadians(90)))
+                                        .lineToLinearHeading(new Pose2d(60, -12, Math.toRadians(0)))
+                                        // pick up cone
+                                        .lineToLinearHeading(new Pose2d(24, -8, Math.toRadians(90)))
+                                        // drop cone
+                                        .lineToLinearHeading(new Pose2d(60, -12, Math.toRadians(0)))
+                                        // pick up cone
+                                        .lineToLinearHeading(new Pose2d(24, -8, Math.toRadians(90)))*/
+                                        // drop cone
+                                        // park
+                                        //.lineToLinearHeading(new Pose2d(12, -13, Math.toRadians(90)))
+                                        //.lineToLinearHeading(new Pose2d(36, -13, Math.toRadians(90)))
+                                        //.lineToLinearHeading(new Pose2d(60, -13, Math.toRadians(90)))
+                                        // three cone, no spline, 15.53 sec
+                                        /*.turn(Math.toRadians(90))
                                         .forward(24)
                                         .strafeRight(40)
                                         // drop cone
@@ -38,10 +58,8 @@ public class RedRight {
                                         // pick up cone
                                         .back(35)
                                         .turn(Math.toRadians(90))
-                                        // drop cone
-                                        .strafeRight(35)
-                                        .forward(62)
-                                        .build();
+                                        .strafeRight(12)*/
+                                        .build()
                         );
                 break;
             case 2:

@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.auto;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -43,8 +45,15 @@ public class AutoRedLeft extends LinearOpMode {
     AprilTagDetection tagOfInterest = null;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
+        float minPosition = 0.3f;
+        float maxPosition = 0.8f;
         SampleMecanumDrive robot = new SampleMecanumDrive(hardwareMap);
+
+        robot.lmotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.lmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lmotor.setTargetPosition(0);
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
@@ -112,7 +121,7 @@ public class AutoRedLeft extends LinearOpMode {
         TrajectorySequence seq5 = null;
         TrajectorySequence seq6 = null;
 
-        Pose2d pos = new Pose2d(-35.5, -64.75, Math.toRadians(90));
+        Pose2d pos = new Pose2d(-35.5, -63, Math.toRadians(90));
         robot.setPoseEstimate(pos);
         if(tagOfInterest != null){
             if (tagOfInterest.id == LEFT) {

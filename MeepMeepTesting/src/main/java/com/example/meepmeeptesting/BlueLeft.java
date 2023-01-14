@@ -26,6 +26,27 @@ public class BlueLeft {
                                         .turn(Math.toRadians(-90))
                                         .forward(22)
                                         .strafeLeft(36)
+                                        .strafeLeft(12)
+                                        //.back(20)
+                                        //.back(45)
+                                        /*.strafeRight(20)
+                                        .lineToLinearHeading(new Pose2d(10, 24, Math.toRadians(180)))
+                                        // drop cone
+                                        .lineToLinearHeading(new Pose2d(24, 13, Math.toRadians(-90)))
+                                        .lineToLinearHeading(new Pose2d(60, 12, Math.toRadians(0)))
+                                        // pick up cone
+                                        .lineToLinearHeading(new Pose2d(24, 8, Math.toRadians(-90)))
+                                        // drop cone
+                                        .lineToLinearHeading(new Pose2d(60, 12, Math.toRadians(0)))
+                                        // pick up cone
+                                        .lineToLinearHeading(new Pose2d(24, 8, Math.toRadians(-90)))*/
+                                        // drop cone, park
+                                        //.lineToLinearHeading(new Pose2d(60, 13, Math.toRadians(-90)))
+                                        //.lineToLinearHeading(new Pose2d(36, 13, Math.toRadians(-90)))
+                                        //.lineToLinearHeading(new Pose2d(12, 13, Math.toRadians(-90)))
+                                        /*.turn(Math.toRadians(-90))
+                                        .forward(22)
+                                        .strafeLeft(36)
                                         // drop cone
                                         .strafeLeft(12)
                                         .turn(Math.toRadians(180))
@@ -40,7 +61,7 @@ public class BlueLeft {
                                         .back(38)
                                         .turn(Math.toRadians(-90))
                                         // drop cone
-                                        .strafeLeft(38)
+                                        .strafeLeft(38)*/
                                         .build()
                         );
                 break;
