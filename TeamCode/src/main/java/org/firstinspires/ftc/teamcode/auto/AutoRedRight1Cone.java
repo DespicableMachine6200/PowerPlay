@@ -141,8 +141,8 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .back(9)
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                         .turn(Math.toRadians(-90))
-                        .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                         .forward(14.4)
+                        .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                         .build();
             }
 
@@ -168,9 +168,9 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .back(9)
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                         .turn(Math.toRadians(-90))
-                        .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                         .forward(14.4)
                         .strafeRight(15)
+                        .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                         .build();
             }
 
@@ -196,9 +196,9 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .back(9)
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                         .turn(Math.toRadians(-90))
-                        .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                         .forward(14.4)
                         .strafeRight(30)
+                        .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                         .build();
             }
         }else{
@@ -223,8 +223,8 @@ public class AutoRedRight1Cone extends LinearOpMode {
                     .back(9)
                     .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                     .turn(Math.toRadians(-90))
-                    .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                     .forward(14.4)
+                    .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                     .build();
         }
 
