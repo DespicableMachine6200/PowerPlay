@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.AprilTagDetectionPipeline;
+import org.firstinspires.ftc.teamcode.auto.JunctionDetection;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -125,7 +126,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                         .turn(Math.toRadians(90))
                         .forward(27.6)
-                        .strafeLeft(33.9)
+                        .strafeLeft(34.15)
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setTargetPosition(3000))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setPower(1))
@@ -133,7 +134,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
                         .addTemporalMarker(() -> robot.lmotor.setPower(1))
                         .waitSeconds(4)
-                        .forward(5.85)
+                        .forward(4)
                         .waitSeconds(1.5)
                         // drop cone 1
                         .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
@@ -152,7 +153,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                         .turn(Math.toRadians(90))
                         .forward(27.6)
-                        .strafeLeft(33.9)
+                        .strafeLeft(34.15)
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setTargetPosition(3000))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setPower(1))
@@ -160,7 +161,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
                         .addTemporalMarker(() -> robot.lmotor.setPower(1))
                         .waitSeconds(4)
-                        .forward(5.85)
+                        .forward(4)
                         .waitSeconds(1.5)
                         // drop cone 1
                         .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
@@ -169,7 +170,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                         .turn(Math.toRadians(-90))
                         .forward(14.4)
-                        .strafeRight(15)
+                        .strafeLeft(17)
                         .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                         .build();
             }
@@ -180,7 +181,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                         .turn(Math.toRadians(90))
                         .forward(27.6)
-                        .strafeLeft(33.9)
+                        .strafeLeft(34.15)
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setTargetPosition(3000))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setPower(1))
@@ -188,7 +189,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
                         .addTemporalMarker(() -> robot.lmotor.setPower(1))
                         .waitSeconds(4)
-                        .forward(5.85)
+                        .forward(4)
                         .waitSeconds(1.5)
                         // drop cone 1
                         .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
@@ -197,7 +198,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                         .turn(Math.toRadians(-90))
                         .forward(14.4)
-                        .strafeRight(30)
+                        .strafeLeft(50)
                         .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                         .build();
             }
@@ -207,7 +208,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                     .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                     .turn(Math.toRadians(90))
                     .forward(27.6)
-                    .strafeLeft(33.9)
+                    .strafeLeft(34.15)
                     //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
                     //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setTargetPosition(3000))
                     //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setPower(1))
@@ -215,7 +216,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                     .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
                     .addTemporalMarker(() -> robot.lmotor.setPower(1))
                     .waitSeconds(4)
-                    .forward(5.85)
+                    .forward(4)
                     .waitSeconds(1.5)
                     // drop cone 1
                     .addTemporalMarker(() -> robot.servo.setPosition(minPosition))

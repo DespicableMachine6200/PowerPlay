@@ -35,9 +35,9 @@ public class Op6200Driven extends OpMode {
     @Override
     public void loop() {
 
-        double drive = -gamepad1.left_stick_y/5;
-        double strafe = (-gamepad1.left_stick_x * 1.1)/5;
-        double turn = (gamepad1.right_stick_x)/5;
+        double drive = -gamepad1.left_stick_y/3.5;
+        double strafe = (-gamepad1.left_stick_x * 1.1)/4.5;
+        double turn = (gamepad1.right_stick_x)/4.9;
 
 
         double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 0.65);
@@ -80,7 +80,7 @@ public class Op6200Driven extends OpMode {
         int lmotorpos = robot.lmotor.getCurrentPosition();
         if(gamepad1.right_bumper)
         {
-            robot.lmotor.setTargetPosition(lmotorpos + 60);
+            robot.lmotor.setTargetPosition(lmotorpos + 250);
             robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.lmotor.setPower(0.95);
 
@@ -88,7 +88,7 @@ public class Op6200Driven extends OpMode {
 
         if(gamepad1.left_bumper)
         {
-            robot.lmotor.setTargetPosition(lmotorpos - 60);
+            robot.lmotor.setTargetPosition(lmotorpos - 100);
             robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.lmotor.setPower(0.95);
 

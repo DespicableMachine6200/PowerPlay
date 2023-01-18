@@ -395,14 +395,14 @@ public class AutoRedRight extends LinearOpMode {
             //failsafe trajectories
             seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
                     //.setVelConstraint(robot.getVelocityConstraint(30, Math.toRadians(90), 15.02))
-                    /*.addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                    .turn(Math.toRadians(90))
+                    .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
+                    //.turn(Math.toRadians(90))
                     .forward(27.6)
                     .strafeLeft(36.9)
                     .forward(7.4)
                     .UNSTABLE_addDisplacementMarkerOffset(-55, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
-                    .UNSTABLE_addDisplacementMarkerOffset(-55, () -> robot.lmotor.setTargetPosition(3000))
                     .UNSTABLE_addDisplacementMarkerOffset(-55, () -> robot.lmotor.setPower(1))
+                    .UNSTABLE_addDisplacementMarkerOffset(-55, () -> robot.lmotor.setTargetPosition(3000))
                     // drop cone 1
                     .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
                     //.waitSeconds(1)
@@ -427,15 +427,15 @@ public class AutoRedRight extends LinearOpMode {
                     /*.UNSTABLE_addTemporalMarkerOffset(-1, () -> robot.servo.setPosition(maxPosition))
                     // park
                     .strafeRight(12)
-                    .UNSTABLE_addTemporalMarkerOffset(-4, () -> robot.lmotor.setTargetPosition(0))*/
+                    .UNSTABLE_addTemporalMarkerOffset(-4, () -> robot.lmotor.setTargetPosition(0)
                     //spline stuff
-                    .setVelConstraint(robot.getVelocityConstraint(52.48291908330528, Math.toRadians(100), 15.02))
+                    /*.setVelConstraint(robot.getVelocityConstraint(52.48291908330528, Math.toRadians(100), 15.02))
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                         .strafeRight(32)
                         .lineToLinearHeading(new Pose2d(0.655, -47.687, Math.toRadians(180)))
                         .UNSTABLE_addTemporalMarkerOffset(-3, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
                         .UNSTABLE_addTemporalMarkerOffset(-3, () -> robot.lmotor.setTargetPosition(2950))
-                        .UNSTABLE_addTemporalMarkerOffset(-3, () -> robot.lmotor.setPower(1))
+                        .UNSTABLE_addTemporalMarkerOffset(-3, () -> robot.lmotor.setPower(1))*/
                         /*.addTemporalMarker(() -> robot.servo.setPosition(minPosition))
                         // drop cone
                         .lineToLinearHeading(new Pose2d(24, -13, Math.toRadians(90)))
