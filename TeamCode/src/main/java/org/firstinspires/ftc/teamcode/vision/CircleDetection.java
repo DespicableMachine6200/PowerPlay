@@ -38,9 +38,10 @@ public class CircleDetection extends OpenCvPipeline {
     }
 
     public int classifyImage(Bitmap image, Mat imageMat){
+        imageMat.reshape(224, 224);
         TensorImageClassifier tfic;
         try {
-            tfic = new TFICBuilder(hardwareMap, "model_unquant.tflite", "A", "B", "C").build();
+            tfic = new TFICBuilder(hardwareMap, "model.tflite", "A", "B", "C").build();
         } catch (IOException e) {
             return 0;
         }
