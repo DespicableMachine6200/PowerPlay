@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.auto;
 
+import android.graphics.Color;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,6 +13,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.AprilTagDetectionPipeline;
 import org.firstinspires.ftc.teamcode.vision.CircleDetection;
 import org.firstinspires.ftc.teamcode.vision.CircularTagDetectionPipeline;
+import org.firstinspires.ftc.teamcode.vision.ColorDetection;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -31,7 +34,7 @@ public class ImageClassification extends LinearOpMode {
 
     }*/
 
-    CircleDetection circleDetection;
+    ColorDetection circleDetection;
     OpenCvCamera camera;
 
 
@@ -62,7 +65,7 @@ public class ImageClassification extends LinearOpMode {
         SampleMecanumDrive robot = new SampleMecanumDrive(hardwareMap);
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        circleDetection = new CircleDetection(hardwareMap, telemetry);
+        circleDetection = new ColorDetection(hardwareMap, telemetry, 400, 224);
         lmotor = hardwareMap.get(DcMotor.class, "linearslide");
         lmotor.setDirection(DcMotorSimple.Direction.REVERSE);
         lmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
