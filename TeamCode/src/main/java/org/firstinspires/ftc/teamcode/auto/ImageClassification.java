@@ -88,16 +88,18 @@ public class ImageClassification extends LinearOpMode {
 
 
         while (!isStarted() && !isStopRequested()) {
-            if (circleDetection.done && circleDetection.pos != -1) {
-                if (circleDetection.pos == 0) {
+            int pos = circleDetection.getPos();
+            if (circleDetection.done && pos != -1) {
+                if (pos == 0) {
                     telemetry.addLine("There was an error seeing the tag.");
                 } else {
-                    tag = circleDetection.pos;
+                    tag = pos;
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data: " + tag);
                     break;
                 }
             } else {
                 telemetry.addLine("Don't see tag of interest :(");
+                telemetry.addLine("LogToTelemetry: " + circleDetection.getLogToTelemetry());
             }
             telemetry.update();
             sleep(20);

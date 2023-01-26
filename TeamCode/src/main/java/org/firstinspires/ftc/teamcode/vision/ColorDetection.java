@@ -6,11 +6,11 @@ import android.graphics.ColorSpace;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.ml.ModelUnquant;
 import org.firstinspires.ftc.teamcode.util.image.TFICBuilder;
 import org.firstinspires.ftc.teamcode.util.image.TensorImageClassifier;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
@@ -22,7 +22,8 @@ import java.util.List;
 
 public class ColorDetection extends OpenCvPipeline {
     public boolean done = false;
-    public int pos = -1;
+    int pos = -1;
+    String logToTelemetry = "NA";
     int posX;
     int posY;
     HardwareMap hardwareMap;
@@ -33,8 +34,10 @@ public class ColorDetection extends OpenCvPipeline {
     }
     @Override
     public Mat processFrame(Mat input) {
+        logToTelemetry = "Here1";
         Bitmap bmp = Bitmap.createBitmap(input.width(), input.height(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(input, bmp);
+        logToTelemetry = "Here2";
         pos = classifyImage(bmp, input);
         done = true;
         return input;
@@ -42,10 +45,14 @@ public class ColorDetection extends OpenCvPipeline {
 
     public int classifyImage(Bitmap image, Mat imageMat){
         int color = image.getPixel(posX, posY);
+        int lowThresh = 50;
+        int ratio = 3;
+        int KERNEL_SIZE = 3;
+        Mat edges = new Mat();
+        //Imgproc.Canny(imageMat, edges, lowThresh, lowThresh*3, KERNEL_SIZE, false);
         int b = (color)&0xFF;
         int g = (color>>8)&0xFF;
         int r = (color>>16)&0xFF;
-        int a = (color>>24)&0xFF;
         int[] colorVals = new int[]{r,g,b};
         String[] colorLabels = new String[]{"A", "B", "C"};
         int max = 0;
@@ -75,5 +82,11 @@ public class ColorDetection extends OpenCvPipeline {
             default:
                 return 0;
         }
+    }
+    public int getPos(){
+        return pos;
+    }
+    public String getLogToTelemetry(){
+        return logToTelemetry;
     }
 }
