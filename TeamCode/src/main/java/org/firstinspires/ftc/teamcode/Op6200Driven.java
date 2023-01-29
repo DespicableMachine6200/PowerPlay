@@ -97,7 +97,7 @@ public class Op6200Driven extends OpMode {
         telemetry.addData("linear slide position", lmotorpos);
 
         if(gamepad1.triangle) {
-            // high
+            // high junction
             robot.lmotor.setTargetPosition(3000);
             robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.lmotor.setPower(0.95);

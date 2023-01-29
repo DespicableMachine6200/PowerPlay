@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.vision;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -11,14 +11,19 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JunctionDetection extends OpenCvPipeline {
+public class cameraReferenceIGNORE extends OpenCvPipeline {
 
     public boolean filterContours(MatOfPoint contour) {
         return Imgproc.contourArea(contour) > 50;
     }
+    public boolean done = false;
+    public boolean started = false;
+    public boolean middle = false;
+    public boolean end = false;
 
     @Override
     public Mat processFrame(Mat input){
+        started = true;
         Mat mat = new Mat();
 
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
@@ -38,6 +43,7 @@ public class JunctionDetection extends OpenCvPipeline {
         Scalar average = Core.mean(masked, thresh);
         Mat scaledMask = new Mat();
         masked.convertTo(scaledMask, -1, 150/average.val[1], 0);
+        middle = true;
 
         Scalar strictLowYellow = new Scalar(0,150,100);
         Scalar strictHighYellow = new Scalar(255, 255,255);
@@ -65,7 +71,7 @@ public class JunctionDetection extends OpenCvPipeline {
                 maxValIdx = contourIdx;
             }
         }
-
+        end = true;
         Moments YellowMoments = Imgproc.moments(contours.get(maxValIdx));
         double cx = 0;
         double cy = 0;
@@ -87,7 +93,7 @@ public class JunctionDetection extends OpenCvPipeline {
         //edges.release();
         edges.copyTo(input);
         // Imgproc.cvtColor(edges, input, Imgproc.COLOR_HSV2RGB);
-
+        done = true;
         return input;
     }
 }
