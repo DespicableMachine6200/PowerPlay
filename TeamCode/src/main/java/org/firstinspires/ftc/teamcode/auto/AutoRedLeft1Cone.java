@@ -116,7 +116,7 @@ public class AutoRedLeft1Cone extends LinearOpMode {
             telemetry.update();
         }
         TrajectorySequence seq1 = null;
-
+        final TrajectorySequence[] seq2 = {null};
         Pose2d pos = new Pose2d(35.5, -63, Math.toRadians(90));
         robot.setPoseEstimate(pos);
         if(tagOfInterest != null){
@@ -144,6 +144,9 @@ public class AutoRedLeft1Cone extends LinearOpMode {
                         .forward(14.4)
                         .strafeLeft(30)
                         .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
+                        .addTemporalMarker(()->{
+                            seq2[0] = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90))).build();
+                        })
                         .build();
             }
 
