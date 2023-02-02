@@ -18,10 +18,9 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvSwitchableWebcam;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Autonomous
-public class AutoRedRightTEMPORAL extends LinearOpMode {
+public class AutoRedRightWEIGHTED extends LinearOpMode {
         AprilTagDetectionPipeline aprilTagDetectionPipeline;
         JunctionDetectionPipelineRevised junctionDetectionPipelineRevised;
         WebcamName camera;
@@ -47,10 +46,20 @@ public class AutoRedRightTEMPORAL extends LinearOpMode {
 
         AprilTagDetection tagOfInterest = null;
 
+        enum State {
+            // define states
+            IDLE
+        }
+
+        org.firstinspires.ftc.teamcode.auto.AutoRedRightASYNC.State currentState = org.firstinspires.ftc.teamcode.auto.AutoRedRightASYNC.State.IDLE;
+        Pose2d pos = new Pose2d(35.5, -63, Math.toRadians(90));
+
         @Override
         public void runOpMode() throws InterruptedException {
             float minPosition = 0.3f;
             float maxPosition = 0.8f;
+            double minDistance = 5; //inches CHANGE
+            double maxDistance = 10; //inches CHANGE
             SampleMecanumDrive robot = new SampleMecanumDrive(hardwareMap);
             //servo = hardwareMap.get(Servo.class, "servo" );
 
@@ -67,17 +76,16 @@ public class AutoRedRightTEMPORAL extends LinearOpMode {
             aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
             junctionDetectionPipelineRevised = new JunctionDetectionPipelineRevised();
 
-            switchableWebcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-            {
+            switchableWebcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
                 @Override
-                public void onOpened()
-                {
+                public void onOpened() {
                     switchableWebcam.setPipeline(aprilTagDetectionPipeline);
                     switchableWebcam.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
                 }
 
                 @Override
-                public void onError(int errorCode){}
+                public void onError(int errorCode) {
+                }
             });
 
             telemetry.setMsTransmissionInterval(50);
@@ -123,48 +131,45 @@ public class AutoRedRightTEMPORAL extends LinearOpMode {
                 telemetry.addLine("No tag snapshot available, never sighted(");
                 telemetry.update();
             }
-            TrajectorySequence seq1 = null;
-            AtomicReference<TrajectorySequence> seq2 = null;
-            TrajectorySequence seq3 = null;
 
-            Pose2d pos = new Pose2d(35.5, -63, Math.toRadians(90));
             robot.setPoseEstimate(pos);
-            if(tagOfInterest != null){
-                seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
-                        .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                        .turn(Math.toRadians(90))
-                        .forward(27.6)
-                        .strafeLeft(34.15)
-                        .addTemporalMarker(() -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
-                        .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
-                        .addTemporalMarker(() -> robot.lmotor.setPower(1))
-                        .waitSeconds(4)
-                        .addTemporalMarker(()->{
+            TrajectorySequence seq1 = robot.trajectorySequenceBuilder(pos)
+                    .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
+                    .turn(Math.toRadians(90))
+                    .forward(27.6)
+                    .strafeLeft(34.15)
+                    .addTemporalMarker(() -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
+                    .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
+                    .addTemporalMarker(() -> robot.lmotor.setPower(1))
+                    .waitSeconds(4)
+                    .build();
 
-                        })
-                        .waitSeconds(1.5)
-                        // drop cone 1
-                        .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
-                        .waitSeconds(1.5)
-                        .back(9)
-                        .build();
-            }
+            TrajectorySequence seq2 = robot.trajectorySequenceBuilder(seq1.end())
+                    .waitSeconds(1.5)
+                    // drop cone 1
+                    .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
+                    .waitSeconds(1.5)
+                    .back(9)
+                    .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
+                    .turn(Math.toRadians(-90))
+                    .forward(14.4)
+                    .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
+                    .build();
 
             waitForStart();
-            if(!isStopRequested() && seq1 != null){
+            while (!isStopRequested() && seq1 != null){
                 switchableWebcam.setActiveCamera(camera2);
                 switchableWebcam.startStreaming(640, 360, OpenCvCameraRotation.UPRIGHT);
                 switchableWebcam.setPipeline(junctionDetectionPipelineRevised);
-                robot.followTrajectorySequence(seq1);
+                //robot.followTrajectorySequence(seq1);
             }
-
-
         }
+
+
 
         void tagToTelemetry(AprilTagDetection detection)
         {
             telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
 
         }
-    }
 }

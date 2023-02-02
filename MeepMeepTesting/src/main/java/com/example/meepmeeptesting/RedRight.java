@@ -21,11 +21,22 @@ public class RedRight {
                         .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(90), 15.02)
                         .setDimensions(14, 10.5)
                         .followTrajectorySequence(drive ->
-                                drive.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
+                                drive.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(180)))
+                                        .forward(27.6)
+                                        .strafeRight(34.15)
+                                        .forward(4)
+                                        .back(9)
+                                        .strafeRight(18)
+                                        .turn(Math.toRadians(180))
+                                        .forward(50)
+                                        // use claw
+                                        .lineToLinearHeading(new Pose2d(24, -7, Math.toRadians(90)))
+                                        .forward(4)
+                                        .back(6)
+                                        .strafeLeft(7)
                                         // three cone spline
-                                        .strafeLeft(32)
+                                        //.forward(32)
                                         //.lineToLinearHeading(new Pose2d(10, -24, Math.toRadians(180)))
-                                        .lineToLinearHeading(new Pose2d(61, -24, Math.toRadians(180)))
                                         //.lineToLinearHeading(new Pose2d(61, -24, Math.toRadians(180)))
                                         // drop cone
                                         /*.lineToLinearHeading(new Pose2d(24, -13, Math.toRadians(90)))

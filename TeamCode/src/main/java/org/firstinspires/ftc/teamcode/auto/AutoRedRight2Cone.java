@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import java.util.ArrayList;
 
 @Autonomous
-public class AutoRedRight extends LinearOpMode {
+public class AutoRedRight2Cone extends LinearOpMode {
     public Servo servo;
     private DcMotor lmotor;
 
@@ -394,36 +394,37 @@ public class AutoRedRight extends LinearOpMode {
         }else{
             //failsafe trajectories
             seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
-                    //.setVelConstraint(robot.getVelocityConstraint(30, Math.toRadians(90), 15.02))
                     .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                    //.turn(Math.toRadians(90))
                     .forward(27.6)
-                    .strafeLeft(36.9)
-                    .forward(7.4)
-                    .UNSTABLE_addDisplacementMarkerOffset(-55, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
-                    .UNSTABLE_addDisplacementMarkerOffset(-55, () -> robot.lmotor.setPower(1))
-                    .UNSTABLE_addDisplacementMarkerOffset(-55, () -> robot.lmotor.setTargetPosition(3000))
+                    .strafeLeft(34.15)
+                    .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
+                    .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(3000))
+                    .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setPower(1))
+                    .forward(4)
+                    .waitSeconds(2.5)
                     // drop cone 1
                     .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
-                    //.waitSeconds(1)
-                    .back(5)
-                    .strafeLeft(3.3)
+                    .waitSeconds(1.5)
+                    .back(9)
+                    .strafeRight(18)
                     .turn(Math.toRadians(180))
-                    .UNSTABLE_addTemporalMarkerOffset(-5, () -> robot.servo.setPosition(maxPosition))
-                    .UNSTABLE_addTemporalMarkerOffset(-3, () -> robot.lmotor.setTargetPosition(571))
-                    .forward(54.7)
-                    .UNSTABLE_addTemporalMarkerOffset(-1.5, () -> robot.servo.setPosition(minPosition))
-                    .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
+                    .UNSTABLE_addTemporalMarkerOffset(-1.5, () -> robot.servo.setPosition(maxPosition))
+                    .forward(50)
+                    .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(571))
+                    .UNSTABLE_addTemporalMarkerOffset(-1, () -> robot.servo.setPosition(minPosition))
                     .waitSeconds(2)
+                    .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
+                    .waitSeconds(1)
                     .addTemporalMarker(() -> robot.lmotor.setTargetPosition(1000))
-                    .back(39)
-                    //.UNSTABLE_addTemporalMarkerOffset(-3, () -> robot.lmotor.setTargetPosition(3000))
-                    .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3000))
+                    // use claw
+                    .back(40)
+                    .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(3000))
                     .turn(Math.toRadians(90))
-                    .forward(5.8)
-                    // drop cone 2
-                    .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
+                    .forward(4)
+                    .waitSeconds(1.5)
                     .back(6)
+                    .strafeLeft(7)
+                    .addTemporalMarker(() -> robot.lmotor.setTargetPosition(0))
                     /*.UNSTABLE_addTemporalMarkerOffset(-1, () -> robot.servo.setPosition(maxPosition))
                     // park
                     .strafeRight(12)

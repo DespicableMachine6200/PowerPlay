@@ -6,6 +6,7 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
@@ -29,26 +30,28 @@ public class JunctionDetectionPipeline extends OpenCvPipeline {
 
         // change yellow to black and everything else to white
         Mat hsv = new Mat();
-        Imgproc.cvtColor(src, hsv, Imgproc.COLOR_BGR2HSV); // hsv mat with hsv values
+        Mat src2 = new Mat();
+        Imgproc.resize(src, src2, new Size(160, 90), 0.25, 0.25, Imgproc.INTER_AREA);
+        Imgproc.cvtColor(src2, hsv, Imgproc.COLOR_BGR2HSV); // hsv mat with hsv values
         Scalar strictLowYellow = new Scalar(15,150,100); // lower yellow bound
         Scalar strictHighYellow = new Scalar(255, 255,255); // higher yellow bound
         //Scalar strictLowYellow = new Scalar(20,70,80);
         //Scalar strictHighYellow = new Scalar(32, 255,255);
-        Mat mask = new Mat();
+        Mat mask = new Mat();;
 
         // change all non-specified color to white
         Core.inRange(hsv, strictLowYellow, strictHighYellow, mask); // all yellow in hsv in mask
-        src.setTo(new Scalar(0, 0, 0), mask); // write back to src with all yellow black
+        src2.setTo(new Scalar(0, 0, 0), mask); // write back to src with all yellow black
 
         // change all non-yellow to white
         Mat maskInv = new Mat();
         Core.bitwise_not(mask, maskInv);
-        src.setTo(new Scalar(255,255,255), maskInv);
+        src2.setTo(new Scalar(255,255,255), maskInv);
         middle = true;
         //Converting the source image to binary
-        Mat gray = new Mat(src.rows(), src.cols(), src.type());
-        Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
-        Mat binary = new Mat(src.rows(), src.cols(), src.type(), new Scalar(0));
+        Mat gray = new Mat(src2.rows(), src2.cols(), src2.type());
+        Imgproc.cvtColor(src2, gray, Imgproc.COLOR_BGR2GRAY);
+        Mat binary = new Mat(src2.rows(), src2.cols(), src2.type(), new Scalar(0));
         Imgproc.threshold(gray, binary, 100, 255, Imgproc.THRESH_BINARY_INV);
 
         //Finding Contours
@@ -76,8 +79,8 @@ public class JunctionDetectionPipeline extends OpenCvPipeline {
             width = Math.min(rotatedRect.size.width, rotatedRect.size.height);
         }
 
-        distance = focal * poleWidth / width;
+        distance = focal * poleWidth / (width*4);
         done = true;
-        return src;
+        return src2;
     }
 }

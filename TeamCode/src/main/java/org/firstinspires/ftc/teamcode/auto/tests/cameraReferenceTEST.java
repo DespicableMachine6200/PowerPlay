@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.auto.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,26 +8,27 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.vision.AprilTagDetectionPipeline;
-import org.firstinspires.ftc.teamcode.vision.JunctionDetectionPipelineRevised;
+import org.firstinspires.ftc.teamcode.vision.cameraReferenceIGNORE;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
-public class DetectionTESTRevised extends LinearOpMode {
-    JunctionDetectionPipelineRevised junctionDetectionPipelineRevised;
+public class cameraReferenceTEST extends LinearOpMode {
+    cameraReferenceIGNORE cameraReference;
     OpenCvCamera camera;
     OpenCvCamera camera2;
 
     @Override
-    public void runOpMode() {
-        //SampleMecanumDrive robot = new SampleMecanumDrive(hardwareMap);
+    public void runOpMode() throws InterruptedException {
+
+        SampleMecanumDrive robot = new SampleMecanumDrive(hardwareMap);
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         camera2 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
-        junctionDetectionPipelineRevised = new JunctionDetectionPipelineRevised();
+        cameraReference = new cameraReferenceIGNORE();
 
-        camera2.setPipeline(junctionDetectionPipelineRevised);
+        /*camera2.setPipeline(cameraReference);
         camera2.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
@@ -38,20 +39,36 @@ public class DetectionTESTRevised extends LinearOpMode {
             public void onError(int errorCode) {
 
             }
-        });
+        });*/
 
         telemetry.setMsTransmissionInterval(50);
-
+        telemetry.addLine("smth");
+        telemetry.update();
         while (!isStarted() && !isStopRequested()) {
-            if (junctionDetectionPipelineRevised.done) {
-                telemetry.addLine("the distance is: " + junctionDetectionPipelineRevised.distance);
-                telemetry.addLine(junctionDetectionPipelineRevised.started + " " + junctionDetectionPipelineRevised.middle + " " + junctionDetectionPipelineRevised.end);
+            telemetry.addLine("telemetry is working");
+            /*if (!cameraReference.done) {
+                telemetry.addLine("not done yet \n");
+                telemetry.addLine(cameraReference.started + " " + cameraReference.middle + " " + cameraReference.end);
             } else {
-                telemetry.addLine("not done yet");
-                telemetry.addLine(junctionDetectionPipelineRevised.started + " " + junctionDetectionPipelineRevised.middle + " " + junctionDetectionPipelineRevised.end);
-            }
+                telemetry.addLine("the distance is \n");
+                telemetry.addLine(cameraReference.started + " " + cameraReference.middle + " " + cameraReference.end);
+            }*/
             telemetry.update();
             sleep(20);
         }
+
+        /*waitForStart();
+        if(!isStopRequested()){
+            telemetry.addLine("started \n");
+            if (cameraReference.done) {
+                telemetry.addLine("the distance is: \n");
+                telemetry.addLine(cameraReference.started + " " + cameraReference.middle + " " + cameraReference.end);
+            } else {
+                telemetry.addLine("not done yet \n");
+                telemetry.addLine(cameraReference.started + " " + cameraReference.middle + " " + cameraReference.end);
+            }
+            telemetry.update();
+            sleep(20);
+        }*/
     }
 }

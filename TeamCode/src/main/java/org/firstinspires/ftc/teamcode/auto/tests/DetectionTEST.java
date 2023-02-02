@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.auto.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -41,13 +41,28 @@ public class DetectionTEST extends LinearOpMode {
         });
 
         telemetry.setMsTransmissionInterval(50);
-
+        telemetry.addLine("smth");
+        telemetry.update();
         while (!isStarted() && !isStopRequested()) {
             if (JunctionDetectionPipeline.done) {
-                telemetry.addLine("the distance is: " + JunctionDetectionPipeline.distance);
+                telemetry.addLine("the distance is: \n");
                 telemetry.addLine(JunctionDetectionPipeline.started + " " + JunctionDetectionPipeline.middle + " " + JunctionDetectionPipeline.end);
             } else {
-                telemetry.addLine("not done yet");
+                telemetry.addLine("not done yet \n");
+                telemetry.addLine(JunctionDetectionPipeline.started + " " + JunctionDetectionPipeline.middle + " " + JunctionDetectionPipeline.end);
+            }
+            telemetry.update();
+            sleep(20);
+        }
+
+        waitForStart();
+        if(!isStopRequested()){
+            telemetry.addLine("started \n");
+            if (JunctionDetectionPipeline.done) {
+                telemetry.addLine("the distance is: \n");
+                telemetry.addLine(JunctionDetectionPipeline.started + " " + JunctionDetectionPipeline.middle + " " + JunctionDetectionPipeline.end);
+            } else {
+                telemetry.addLine("not done yet \n");
                 telemetry.addLine(JunctionDetectionPipeline.started + " " + JunctionDetectionPipeline.middle + " " + JunctionDetectionPipeline.end);
             }
             telemetry.update();

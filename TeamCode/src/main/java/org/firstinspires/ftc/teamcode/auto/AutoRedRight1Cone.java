@@ -201,9 +201,8 @@ public class AutoRedRight1Cone extends LinearOpMode {
             }
         }else{
             //failsafe trajectories
-            seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
+            seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(180)))
                     .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                    .turn(Math.toRadians(90))
                     .forward(27.6)
                     .strafeLeft(34.15)
                     //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))

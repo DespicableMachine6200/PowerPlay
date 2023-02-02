@@ -151,18 +151,23 @@ public class Op6200DrivenAssisted extends OpMode {
                 if (junctionDetectionPipelineRevised.distance < minDistance) {
                     // go back
                     while (!(junctionDetectionPipelineRevised.distance > minDistance && junctionDetectionPipelineRevised.distance > maxDistance)) {
-                        robot.leftFront.setPower(-0.75);
-                        robot.rightFront.setPower(-0.75);
-                        robot.leftRear.setPower(-0.75);
-                        robot.rightRear.setPower(-0.75);
+                        robot.leftFront.setPower(-0.5);
+                        robot.rightFront.setPower(-0.5);
+                        robot.leftRear.setPower(-0.5);
+                        robot.rightRear.setPower(-0.5);
+                    } if (junctionDetectionPipelineRevised.distance > minDistance && junctionDetectionPipelineRevised.distance > maxDistance) {
+                        gamepad1.rumble(10);
                     }
                 } else {
                     // go forward
                     while (!(junctionDetectionPipelineRevised.distance > minDistance && junctionDetectionPipelineRevised.distance > maxDistance)) {
-                        robot.leftFront.setPower(0.75);
-                        robot.rightFront.setPower(0.75);
-                        robot.leftRear.setPower(0.75);
-                        robot.rightRear.setPower(0.75);
+                        robot.leftFront.setPower(0.5);
+                        robot.rightFront.setPower(0.5);
+                        robot.leftRear.setPower(0.5);
+                        robot.rightRear.setPower(0.5);
+                    }
+                    if (junctionDetectionPipelineRevised.distance > minDistance && junctionDetectionPipelineRevised.distance > maxDistance) {
+                        gamepad1.rumble(10);
                     }
                 }
             }
