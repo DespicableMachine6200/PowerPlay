@@ -120,7 +120,7 @@ public class AutoRedRight2Cone extends LinearOpMode {
         }
         TrajectorySequence seq1 = null;
 
-        Pose2d pos = new Pose2d(35.5, -63, Math.toRadians(90));
+        Pose2d pos = new Pose2d(35.5, -63, Math.toRadians(180));
         robot.setPoseEstimate(pos);
         if(tagOfInterest != null){
             if (tagOfInterest.id == LEFT) {
@@ -128,13 +128,12 @@ public class AutoRedRight2Cone extends LinearOpMode {
                         // will this work idk
                         .setVelConstraint(robot.getVelocityConstraint(30, Math.toRadians(90), 15.02))
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                        .turn(Math.toRadians(90))
-                        .forward(29)
-                        .strafeLeft(37.8)
+                        .forward(27.6)
+                        .strafeRight(38.7)
                         .UNSTABLE_addTemporalMarkerOffset(-3, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
                         .UNSTABLE_addTemporalMarkerOffset(-3, () -> robot.lmotor.setTargetPosition(3000))
                         .UNSTABLE_addTemporalMarkerOffset(-3, () -> robot.lmotor.setPower(1))
-                        .forward(10.2)
+                        .forward(5.2)
                         .waitSeconds(1)
                         // drop cone 1
                         .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
@@ -393,20 +392,20 @@ public class AutoRedRight2Cone extends LinearOpMode {
             }
         }else{
             //failsafe trajectories
-            seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
+            seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(180)))
                     .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                     .forward(27.6)
-                    .strafeLeft(34.15)
+                    .strafeRight(38.1)
                     .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
                     .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(3000))
                     .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setPower(1))
-                    .forward(4)
+                    .forward(5.2)
                     .waitSeconds(2.5)
                     // drop cone 1
                     .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
                     .waitSeconds(1.5)
                     .back(9)
-                    .strafeRight(18)
+                    .strafeRight(15)
                     .turn(Math.toRadians(180))
                     .UNSTABLE_addTemporalMarkerOffset(-1.5, () -> robot.servo.setPosition(maxPosition))
                     .forward(50)
@@ -417,11 +416,12 @@ public class AutoRedRight2Cone extends LinearOpMode {
                     .waitSeconds(1)
                     .addTemporalMarker(() -> robot.lmotor.setTargetPosition(1000))
                     // use claw
-                    .back(40)
-                    .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(3000))
+                    .back(41)
+                    .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3100))
                     .turn(Math.toRadians(90))
-                    .forward(4)
-                    .waitSeconds(1.5)
+                    .forward(5.2)
+                    .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
+                    .waitSeconds(3.2)
                     .back(6)
                     .strafeLeft(7)
                     .addTemporalMarker(() -> robot.lmotor.setTargetPosition(0))

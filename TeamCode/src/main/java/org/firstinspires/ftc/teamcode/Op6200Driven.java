@@ -29,7 +29,7 @@ public class Op6200Driven extends OpMode {
         robot.lmotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.lmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lmotor.setTargetPosition(0);
-        robot.setPoseEstimate(new Pose2d(35.5, -63, Math.toRadians(90)));
+        robot.setPoseEstimate(new Pose2d(35.5, -63, Math.toRadians(180)));
     }
 
     @Override

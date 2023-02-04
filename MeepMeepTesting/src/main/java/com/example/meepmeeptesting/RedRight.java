@@ -30,7 +30,8 @@ public class RedRight {
                                         .turn(Math.toRadians(180))
                                         .forward(50)
                                         // use claw
-                                        .lineToLinearHeading(new Pose2d(24, -7, Math.toRadians(90)))
+                                        .back(25)
+                                        .lineToLinearHeading(new Pose2d(24, -8.5, Math.toRadians(90)))
                                         .forward(4)
                                         .back(6)
                                         .strafeLeft(7)
