@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto.tests;
+package org.auto.tests;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;

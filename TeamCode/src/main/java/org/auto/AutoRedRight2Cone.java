@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.auto;
 
 import android.graphics.RenderNode;
 

@@ -1,10 +1,11 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.auto;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.SwitchableCamera;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -15,17 +16,16 @@ import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvSwitchableWebcam;
 
 import java.util.ArrayList;
 
 @Autonomous
-public class AutoRedRightWEIGHTED extends LinearOpMode {
+public class AutoRedRightWEBCAMSplit extends LinearOpMode {
         AprilTagDetectionPipeline aprilTagDetectionPipeline;
         JunctionDetectionPipelineRevised junctionDetectionPipelineRevised;
-        WebcamName camera;
-        WebcamName camera2;
-        OpenCvSwitchableWebcam switchableWebcam;
+        private SwitchableCamera switchableCamera;
+        OpenCvCamera camera;
+        OpenCvCamera camera2;
 
         static final double FEET_PER_METER = 3.28084;
 
@@ -46,20 +46,10 @@ public class AutoRedRightWEIGHTED extends LinearOpMode {
 
         AprilTagDetection tagOfInterest = null;
 
-        enum State {
-            // define states
-            IDLE
-        }
-
-        org.firstinspires.ftc.teamcode.auto.AutoRedRightASYNC.State currentState = org.firstinspires.ftc.teamcode.auto.AutoRedRightASYNC.State.IDLE;
-        Pose2d pos = new Pose2d(35.5, -63, Math.toRadians(90));
-
         @Override
         public void runOpMode() throws InterruptedException {
             float minPosition = 0.3f;
             float maxPosition = 0.8f;
-            double minDistance = 5; //inches CHANGE
-            double maxDistance = 10; //inches CHANGE
             SampleMecanumDrive robot = new SampleMecanumDrive(hardwareMap);
             //servo = hardwareMap.get(Servo.class, "servo" );
 
@@ -67,24 +57,40 @@ public class AutoRedRightWEIGHTED extends LinearOpMode {
             robot.lmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.lmotor.setTargetPosition(0);
 
-            camera = hardwareMap.get(WebcamName.class, "Webcam 1");
-            camera2 = hardwareMap.get(WebcamName.class, "Webcam 2");
-
             int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-            switchableWebcam = OpenCvCameraFactory.getInstance().createSwitchableWebcam(cameraMonitorViewId, camera, camera2);
-
+            camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+            camera2 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
             aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
             junctionDetectionPipelineRevised = new JunctionDetectionPipelineRevised();
 
-            switchableWebcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            int[] viewportContainerIds = OpenCvCameraFactory.getInstance()
+                    .splitLayoutForMultipleViewports(cameraMonitorViewId, 2,
+                            OpenCvCameraFactory.ViewportSplitMethod.HORIZONTALLY);
+
+            //switchableCamera.setActiveCamera(camera2);
+            camera.setPipeline(aprilTagDetectionPipeline);
+            camera2.setPipeline(junctionDetectionPipelineRevised);
+            camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
                 @Override
                 public void onOpened() {
-                    switchableWebcam.setPipeline(aprilTagDetectionPipeline);
-                    switchableWebcam.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
+                    camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
                 }
 
                 @Override
                 public void onError(int errorCode) {
+
+                }
+            });
+
+            camera2.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+                @Override
+                public void onOpened() {
+                    camera2.startStreaming(640, 360, OpenCvCameraRotation.UPRIGHT);
+                }
+
+                @Override
+                public void onError(int errorCode) {
+
                 }
             });
 
@@ -131,41 +137,43 @@ public class AutoRedRightWEIGHTED extends LinearOpMode {
                 telemetry.addLine("No tag snapshot available, never sighted(");
                 telemetry.update();
             }
+            TrajectorySequence seq1 = null;
 
+            Pose2d pos = new Pose2d(35.5, -63, Math.toRadians(90));
             robot.setPoseEstimate(pos);
-            TrajectorySequence seq1 = robot.trajectorySequenceBuilder(pos)
-                    .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                    .turn(Math.toRadians(90))
-                    .forward(27.6)
-                    .strafeLeft(34.15)
-                    .addTemporalMarker(() -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
-                    .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
-                    .addTemporalMarker(() -> robot.lmotor.setPower(1))
-                    .waitSeconds(4)
-                    .build();
-
-            TrajectorySequence seq2 = robot.trajectorySequenceBuilder(seq1.end())
-                    .waitSeconds(1.5)
-                    // drop cone 1
-                    .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
-                    .waitSeconds(1.5)
-                    .back(9)
-                    .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                    .turn(Math.toRadians(-90))
-                    .forward(14.4)
-                    .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
-                    .build();
+            if(tagOfInterest != null){
+                    seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
+                            .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
+                            .turn(Math.toRadians(90))
+                            .forward(27.6)
+                            .strafeLeft(34.15)
+                            //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
+                            //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setTargetPosition(3000))
+                            //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setPower(1))
+                            .addTemporalMarker(() -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
+                            .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
+                            .addTemporalMarker(() -> robot.lmotor.setPower(1))
+                            .waitSeconds(4)
+                            .forward(4)
+                            .waitSeconds(1.5)
+                            // drop cone 1
+                            .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
+                            .waitSeconds(1.5)
+                            .back(9)
+                            .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
+                            .turn(Math.toRadians(-90))
+                            .forward(14.4)
+                            .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
+                            .build();
+            }
 
             waitForStart();
-            while (!isStopRequested() && seq1 != null){
-                switchableWebcam.setActiveCamera(camera2);
-                switchableWebcam.startStreaming(640, 360, OpenCvCameraRotation.UPRIGHT);
-                switchableWebcam.setPipeline(junctionDetectionPipelineRevised);
-                //robot.followTrajectorySequence(seq1);
+            if(!isStopRequested() && seq1 != null){
+                robot.followTrajectorySequence(seq1);
             }
+
+
         }
-
-
 
         void tagToTelemetry(AprilTagDetection detection)
         {

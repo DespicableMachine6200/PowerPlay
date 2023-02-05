@@ -1,4 +1,6 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.auto;
+
+import android.graphics.RenderNode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -18,7 +20,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import java.util.ArrayList;
 
 @Autonomous
-public class AutoRedRight1Cone extends LinearOpMode {
+public class AutoRedLeft1Cone extends LinearOpMode {
 
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
     OpenCvCamera camera;
@@ -114,16 +116,16 @@ public class AutoRedRight1Cone extends LinearOpMode {
             telemetry.update();
         }
         TrajectorySequence seq1 = null;
-
-        Pose2d pos = new Pose2d(35.5, -63, Math.toRadians(180));
+        final TrajectorySequence[] seq2 = {null};
+        Pose2d pos = new Pose2d(35.5, -63, Math.toRadians(90));
         robot.setPoseEstimate(pos);
         if(tagOfInterest != null){
             if (tagOfInterest.id == LEFT) {
                 seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                        .turn(Math.toRadians(90))
+                        .turn(Math.toRadians(-90))
                         .forward(27.6)
-                        .strafeLeft(34.15)
+                        .strafeLeft(33.9)
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setTargetPosition(3000))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setPower(1))
@@ -131,16 +133,20 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
                         .addTemporalMarker(() -> robot.lmotor.setPower(1))
                         .waitSeconds(4)
-                        .forward(4)
+                        .forward(5.85)
                         .waitSeconds(1.5)
                         // drop cone 1
                         .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
                         .waitSeconds(1.5)
                         .back(9)
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                        .turn(Math.toRadians(-90))
+                        .turn(Math.toRadians(90))
                         .forward(14.4)
+                        .strafeLeft(30)
                         .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
+                        .addTemporalMarker(()->{
+                            seq2[0] = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90))).build();
+                        })
                         .build();
             }
 
@@ -148,9 +154,9 @@ public class AutoRedRight1Cone extends LinearOpMode {
                 //insert trajectories for parking zone 2
                 seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                        .turn(Math.toRadians(90))
+                        .turn(Math.toRadians(-90))
                         .forward(27.6)
-                        .strafeLeft(34.15)
+                        .strafeLeft(33.9)
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setTargetPosition(3000))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setPower(1))
@@ -158,7 +164,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
                         .addTemporalMarker(() -> robot.lmotor.setPower(1))
                         .waitSeconds(4)
-                        .forward(4)
+                        .forward(5.85)
                         .waitSeconds(1.5)
                         // drop cone 1
                         .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
@@ -167,7 +173,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                         .turn(Math.toRadians(-90))
                         .forward(14.4)
-                        .strafeLeft(17)
+                        .strafeLeft(15)
                         .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                         .build();
             }
@@ -176,9 +182,9 @@ public class AutoRedRight1Cone extends LinearOpMode {
                 //insert trajectories for parking zone 3
                 seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                        .turn(Math.toRadians(90))
+                        .turn(Math.toRadians(-90))
                         .forward(27.6)
-                        .strafeLeft(34.15)
+                        .strafeLeft(33.9)
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setTargetPosition(3000))
                         //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setPower(1))
@@ -186,25 +192,25 @@ public class AutoRedRight1Cone extends LinearOpMode {
                         .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
                         .addTemporalMarker(() -> robot.lmotor.setPower(1))
                         .waitSeconds(4)
-                        .forward(4)
+                        .forward(5.85)
                         .waitSeconds(1.5)
                         // drop cone 1
                         .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
                         .waitSeconds(1.5)
                         .back(9)
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                        .turn(Math.toRadians(-90))
+                        .turn(Math.toRadians(90))
                         .forward(14.4)
-                        .strafeLeft(50)
                         .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
                         .build();
             }
         }else{
             //failsafe trajectories
-            seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(180)))
+            seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
                     .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
+                    .turn(Math.toRadians(90))
                     .forward(27.6)
-                    .strafeRight(38.7)
+                    .strafeLeft(33.9)
                     //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
                     //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setTargetPosition(3000))
                     //.UNSTABLE_addTemporalMarkerOffset(-2, () -> robot.lmotor.setPower(1))
@@ -212,7 +218,7 @@ public class AutoRedRight1Cone extends LinearOpMode {
                     .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
                     .addTemporalMarker(() -> robot.lmotor.setPower(1))
                     .waitSeconds(4)
-                    .forward(5.2)
+                    .forward(5.85)
                     .waitSeconds(1.5)
                     // drop cone 1
                     .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
