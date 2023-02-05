@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import java.util.ArrayList;
 
 @Autonomous
-public class AutoRedRight2Cone extends LinearOpMode {
+public class  AutoRedRight2Cone extends LinearOpMode {
     public Servo servo;
     private DcMotor lmotor;
 
