@@ -20,7 +20,7 @@ public class NewPID {
     }
     public double desiredSetpoint;
     void startLoop(){
-        Runnable thread = new Thread(()->{
+        Thread thread = new Thread(()->{
             double K_p = 0.5;
             double K_i = 0.01;
             double K_d = 0.1;
@@ -33,7 +33,7 @@ public class NewPID {
                 cumulativeError += error * dt;
                 double derivative = (error - previousError) / dt;
                 double controlOutput = K_p * error + K_i * cumulativeError + K_d * derivative;
-                controlOutput = Math.max(0, Math.min(1, controlOutput));
+                controlOutput = Math.max(-1, Math.min(1, controlOutput));
                 linearSlide.setPower(controlOutput);
                 previousError = error;
                 try {
@@ -43,7 +43,7 @@ public class NewPID {
                 }
             }
         });
-        thread.run();
+        thread.start();
     }
 
     public void setTargetPosition(int pos){
