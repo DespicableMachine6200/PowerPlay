@@ -1,53 +1,27 @@
 package org.firstinspires.ftc.teamcode.auto;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.SwitchableCamera;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.AprilTagDetectionPipeline;
-import org.firstinspires.ftc.teamcode.vision.JunctionDetectionPipelineRevised;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvSwitchableWebcam;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.vision.AprilTagDetectionPipeline;
-import org.firstinspires.ftc.teamcode.vision.JunctionDetectionPipelineRevised;
-import org.openftc.apriltag.AprilTagDetection;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvSwitchableWebcam;
 
 import java.util.ArrayList;
 
 @Autonomous
-public class AutoRedRightASYNC extends LinearOpMode {
+public class AprilTagsDemo extends LinearOpMode{
+
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
-    JunctionDetectionPipelineRevised junctionDetectionPipelineRevised;
-    WebcamName camera;
-    WebcamName camera2;
-    OpenCvSwitchableWebcam switchableWebcam;
+    OpenCvCamera camera;
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -68,14 +42,6 @@ public class AutoRedRightASYNC extends LinearOpMode {
 
     AprilTagDetection tagOfInterest = null;
 
-    enum State {
-        // define states
-        IDLE
-    }
-
-    State currentState = State.IDLE;
-    Pose2d pos = new Pose2d(35.5, -63, Math.toRadians(90));
-
     @Override
     public void runOpMode() throws InterruptedException {
         float minPosition = 0.3f;
@@ -87,24 +53,20 @@ public class AutoRedRightASYNC extends LinearOpMode {
         robot.lmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lmotor.setTargetPosition(0);
 
-        camera = hardwareMap.get(WebcamName.class, "Webcam 1");
-        camera2 = hardwareMap.get(WebcamName.class, "Webcam 2");
-
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        switchableWebcam = OpenCvCameraFactory.getInstance().createSwitchableWebcam(cameraMonitorViewId, camera, camera2);
-
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
-        junctionDetectionPipelineRevised = new JunctionDetectionPipelineRevised();
 
-        switchableWebcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+        camera.setPipeline(aprilTagDetectionPipeline);
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                switchableWebcam.setPipeline(aprilTagDetectionPipeline);
-                switchableWebcam.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
             public void onError(int errorCode) {
+
             }
         });
 
@@ -151,30 +113,7 @@ public class AutoRedRightASYNC extends LinearOpMode {
             telemetry.addLine("No tag snapshot available, never sighted(");
             telemetry.update();
         }
-
-        robot.setPoseEstimate(pos);
-        TrajectorySequence seq1 = robot.trajectorySequenceBuilder(pos)
-                .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                .turn(Math.toRadians(90))
-                .forward(27.6)
-                .strafeLeft(34.15)
-                .addTemporalMarker(() -> robot.lmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION))
-                .addTemporalMarker(() -> robot.lmotor.setTargetPosition(3030))
-                .addTemporalMarker(() -> robot.lmotor.setPower(1))
-                .waitSeconds(4)
-                .build();
-
-        TrajectorySequence seq2 = robot.trajectorySequenceBuilder(seq1.end())
-                .waitSeconds(1.5)
-                // drop cone 1
-                .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
-                .waitSeconds(1.5)
-                .back(9)
-                .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                .turn(Math.toRadians(-90))
-                .forward(14.4)
-                .UNSTABLE_addTemporalMarkerOffset(-3.5, () -> robot.lmotor.setTargetPosition(0))
-                .build();
+        waitForStart();
     }
 
     void tagToTelemetry(AprilTagDetection detection)
@@ -183,3 +122,5 @@ public class AutoRedRightASYNC extends LinearOpMode {
 
     }
 }
+
+
