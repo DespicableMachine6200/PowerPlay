@@ -230,6 +230,7 @@ public class AutoRedRightSpline extends LinearOpMode{
             }else{
                 //failsafe trajectories
                 seq1 = robot.trajectorySequenceBuilder(new Pose2d(35.5, -63, Math.toRadians(90)))
+                        // CONE 1 START
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
                         .forward(50.9)
                         .strafeLeft(13.5)
@@ -237,19 +238,20 @@ public class AutoRedRightSpline extends LinearOpMode{
                         .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(3000))
                         .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setPower(1))
                         .forward(5.6)
-                        .waitSeconds(1.5)
+                        .waitSeconds(1.5) // prob make 0.5 cuz it works for cone 2
                         // drop cone 1
                         .addTemporalMarker(() -> robot.servo.setPosition(minPosition))
-                        .waitSeconds(0.5)
+                        .waitSeconds(0.5) //take out/shorten
+                        // CONE 1 END
+                        // CONE 2 START
                         .back(12)
                         .lineToLinearHeading(new Pose2d(40, -11.5, Math.toRadians(0)))
                         .UNSTABLE_addTemporalMarkerOffset(-1.5, () -> robot.servo.setPosition(maxPosition))
                         .forward(27)
                         .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(571))
                         .UNSTABLE_addTemporalMarkerOffset(-1, () -> robot.servo.setPosition(minPosition))
-                        .waitSeconds(0.1)
                         .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
-                        .waitSeconds(0.5)
+                        .waitSeconds(0.5) //take out?
                         .addTemporalMarker(() -> robot.lmotor.setTargetPosition(1000))
                         // use claw
                         .back(20)
@@ -257,8 +259,51 @@ public class AutoRedRightSpline extends LinearOpMode{
                         .forward(5.6)
                         .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(3000))
                         .waitSeconds(1.5)
+                        // drop cone 2
                         .UNSTABLE_addTemporalMarkerOffset(-1, () -> robot.servo.setPosition(minPosition))
                         .waitSeconds(0.5)
+                        // CONE 2 END
+                        // CONE 3 START
+                        .back(12)
+                        .lineToLinearHeading(new Pose2d(40, -11.5, Math.toRadians(0)))
+                        .UNSTABLE_addTemporalMarkerOffset(-1.5, () -> robot.servo.setPosition(maxPosition))
+                        .forward(27)
+                        .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(571))
+                        .UNSTABLE_addTemporalMarkerOffset(-1, () -> robot.servo.setPosition(minPosition))
+                        .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
+                        .waitSeconds(0.5) //take out?
+                        .addTemporalMarker(() -> robot.lmotor.setTargetPosition(1000))
+                        // use claw
+                        .back(20)
+                        .lineToLinearHeading(new Pose2d(26.2 , -10.6, Math.toRadians(90)))
+                        .forward(5.6)
+                        .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(3000))
+                        .waitSeconds(1.5)
+                        // drop cone 3
+                        .UNSTABLE_addTemporalMarkerOffset(-1, () -> robot.servo.setPosition(minPosition))
+                        .waitSeconds(0.5)
+                        // CONE 3 END
+                        // CONE 4 START
+                        .back(12)
+                        .lineToLinearHeading(new Pose2d(40, -11.5, Math.toRadians(0)))
+                        .UNSTABLE_addTemporalMarkerOffset(-1.5, () -> robot.servo.setPosition(maxPosition))
+                        .forward(27)
+                        .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(571))
+                        .UNSTABLE_addTemporalMarkerOffset(-1, () -> robot.servo.setPosition(minPosition))
+                        .addTemporalMarker(() -> robot.servo.setPosition(maxPosition))
+                        .waitSeconds(0.5) //take out?
+                        .addTemporalMarker(() -> robot.lmotor.setTargetPosition(1000))
+                        // use claw
+                        .back(20)
+                        .lineToLinearHeading(new Pose2d(26.2 , -10.6, Math.toRadians(90)))
+                        .forward(5.6)
+                        .UNSTABLE_addTemporalMarkerOffset(-2.5, () -> robot.lmotor.setTargetPosition(3000))
+                        .waitSeconds(1.5)
+                        // drop cone 4
+                        .UNSTABLE_addTemporalMarkerOffset(-1, () -> robot.servo.setPosition(minPosition))
+                        .waitSeconds(0.5)
+                        // CONE 4 END
+                        // park
                         .back(5.6)
                         .strafeRight(11)
                         .build();
